@@ -93,7 +93,7 @@ uint64_t uv_hrtime(void) {
 
 
 void uv_close(uv_handle_t* handle, uv_close_cb close_cb) {
-  assert(!(handle->flags & (UV_CLOSING | UV_CLOSED)));
+//  assert(!uv__is_closing(handle));
 
   handle->flags |= UV_CLOSING;
   handle->close_cb = close_cb;
@@ -194,7 +194,7 @@ int uv__socket_sockopt(uv_handle_t* handle, int optname, int* value) {
 
 void uv__make_close_pending(uv_handle_t* handle) {
   assert(handle->flags & UV_CLOSING);
-  assert(!(handle->flags & UV_CLOSED));
+//  assert(!(handle->flags & UV_CLOSED));
   handle->next_closing = handle->loop->closing_handles;
   handle->loop->closing_handles = handle;
 }
